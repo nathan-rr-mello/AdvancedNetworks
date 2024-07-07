@@ -1,39 +1,130 @@
-
-MYMIB DEFINITIONS ::= BEGIN
+MIB-T2 DEFINITIONS ::= BEGIN
 
 IMPORTS
-    OBJECT-GROUP FROM SNMPv2-CONF
-    OBJECT-TYPE, experimental FROM SNMPv2-SMI
-    DisplayString FROM SNMPv2-TC;
+        mgmt, NetworkAddress, IpAddress, Counter, Gauge,
+                TimeTicks
+            FROM RFC1155-SMI
+        OBJECT-TYPE 
+                FROM RFC-1212;
 
-myMIB MODULE-IDENTITY
-    LAST-UPDATED "202406290000Z"
-    ORGANIZATION "PUCRS"
-    CONTACT-INFO "admin@localhost"
-    DESCRIPTION "My MIB"
-::= { experimental 1234 }
+mib-2      OBJECT IDENTIFIER ::= { mgmt 1 }
 
-myObjects OBJECT IDENTIFIER ::= { myMIB 1 }
+DisplayString ::=
+    OCTET STRING
 
-myCurrentDateTime OBJECT-TYPE
-    SYNTAX DisplayString
-    MAX-ACCESS read-only
-    STATUS current
-    DESCRIPTION "Current Date and Time"
-    ::= { myObjects 1 }
+PhysAddress ::=
+    OCTET STRING
 
-myHostname OBJECT-TYPE
-    SYNTAX DisplayString
-    MAX-ACCESS read-only
-    STATUS current
-    DESCRIPTION "Hostname"
-    ::= { myObjects 2 }
+system       OBJECT IDENTIFIER ::= { mib-2 1 }
 
-myFileContent OBJECT-TYPE
-    SYNTAX DisplayString
-    MAX-ACCESS read-write
-    STATUS current
-    DESCRIPTION "File Content"
-    ::= { myObjects 3 }
+interfaces   OBJECT IDENTIFIER ::= { mib-2 2 }
+
+at           OBJECT IDENTIFIER ::= { mib-2 3 }
+
+ip           OBJECT IDENTIFIER ::= { mib-2 4 }
+
+icmp         OBJECT IDENTIFIER ::= { mib-2 5 }
+
+tcp          OBJECT IDENTIFIER ::= { mib-2 6 }
+
+udp          OBJECT IDENTIFIER ::= { mib-2 7 }
+
+egp          OBJECT IDENTIFIER ::= { mib-2 8 }
+
+transmission OBJECT IDENTIFIER ::= { mib-2 10 }
+
+snmp         OBJECT IDENTIFIER ::= { mib-2 11 }
+
+t_Model OBJECT-TYPE
+    SYNTAX  DisplayString (SIZE (0..255))
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla model"
+    ::= { system 1 }
+
+t_ManDate OBJECT-TYPE
+    SYNTAX  DisplayString (SIZE (0..255))
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla manufacturing date"
+    ::= { system 2 }
+
+t_Chassis OBJECT-TYPE
+    SYNTAX  DisplayString (SIZE (0..255))
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla chassis number"
+    ::= { system 3 }
+
+t_Mileage OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla Mileage"
+    ::= { system 4 }
+
+t_OutTemp OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla outside temperature"
+    ::= { system 5 }
+
+t_InTemp OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla inside temperature"
+    ::= { system 6 }
+
+t_Consumption OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla average kWh / km"
+    ::= { system 7 }
+
+t_BatLifeTime OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla battery life time"
+    ::= { system 8 }
+
+t_HP OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla HP"
+    ::= { system 9 }
+
+t_MaxSpeed OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION
+            "Tesla max speed reached"
+    ::= { system 10 }
+
+t_InterLigths OBJECT-TYPE
+    SYNTAX  INTEGER {
+                    on(1),
+                    off(2),
+                    door(3)
+                }
+    ACCESS  read-only
+    STATUS  read-write
+    DESCRIPTION
+            "Tesla inter ligths config"
+    ::= { system 11 }
 
 END

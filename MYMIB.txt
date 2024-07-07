@@ -1,47 +1,26 @@
 MIB-T2 DEFINITIONS ::= BEGIN
 
 IMPORTS
-        mgmt, NetworkAddress, IpAddress, Counter, Gauge,
-                TimeTicks
-            FROM RFC1155-SMI
-        OBJECT-TYPE 
-                FROM RFC-1212;
+    OBJECT-GROUP FROM SNMPv2-CONF
+    OBJECT-TYPE, experimental FROM SNMPv2-SMI
+    DisplayString FROM SNMPv2-TC;
 
-mib-2      OBJECT IDENTIFIER ::= { mgmt 1 }
+teslaMIB MODULE-IDENTITY
+    LAST-UPDATED "202406290000Z"
+    ORGANIZATION "PUCRS"
+    CONTACT-INFO "admin@localhost"
+    DESCRIPTION "MIB for acessing information about tesla cars."
+::= { experimental 1234 }
 
-DisplayString ::=
-    OCTET STRING
+t_Info OBJECT IDENTIFIER ::= { teslaMIB 1 }
 
-PhysAddress ::=
-    OCTET STRING
-
-system       OBJECT IDENTIFIER ::= { mib-2 1 }
-
-interfaces   OBJECT IDENTIFIER ::= { mib-2 2 }
-
-at           OBJECT IDENTIFIER ::= { mib-2 3 }
-
-ip           OBJECT IDENTIFIER ::= { mib-2 4 }
-
-icmp         OBJECT IDENTIFIER ::= { mib-2 5 }
-
-tcp          OBJECT IDENTIFIER ::= { mib-2 6 }
-
-udp          OBJECT IDENTIFIER ::= { mib-2 7 }
-
-egp          OBJECT IDENTIFIER ::= { mib-2 8 }
-
-transmission OBJECT IDENTIFIER ::= { mib-2 10 }
-
-snmp         OBJECT IDENTIFIER ::= { mib-2 11 }
-
-t_Model OBJECT-TYPE
+t_ModelName OBJECT-TYPE
     SYNTAX  DisplayString (SIZE (0..255))
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
-            "Tesla model"
-    ::= { system 1 }
+            "Tesla model name."
+    ::= { t_Info 1 }
 
 t_ManDate OBJECT-TYPE
     SYNTAX  DisplayString (SIZE (0..255))
@@ -49,55 +28,23 @@ t_ManDate OBJECT-TYPE
     STATUS  mandatory
     DESCRIPTION
             "Tesla manufacturing date"
-    ::= { system 2 }
+    ::= { t_Info 2 }
 
-t_Chassis OBJECT-TYPE
-    SYNTAX  DisplayString (SIZE (0..255))
-    ACCESS  read-only
-    STATUS  mandatory
-    DESCRIPTION
-            "Tesla chassis number"
-    ::= { system 3 }
-
-t_Mileage OBJECT-TYPE
+t_ACTemp OBJECT-TYPE
     SYNTAX  INTEGER
-    ACCESS  read-only
+    ACCESS  read-write
     STATUS  mandatory
     DESCRIPTION
-            "Tesla Mileage"
-    ::= { system 4 }
+            "Temperature set on the air conditioner on celsius."
+    ::= { t_Info 3 }
 
-t_OutTemp OBJECT-TYPE
-    SYNTAX  INTEGER
+t_BatteryPercentage OBJECT-TYPE
+    SYNTAX  INTEGER (0..100)
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
-            "Tesla outside temperature"
-    ::= { system 5 }
-
-t_InTemp OBJECT-TYPE
-    SYNTAX  INTEGER
-    ACCESS  read-only
-    STATUS  mandatory
-    DESCRIPTION
-            "Tesla inside temperature"
-    ::= { system 6 }
-
-t_Consumption OBJECT-TYPE
-    SYNTAX  INTEGER
-    ACCESS  read-only
-    STATUS  mandatory
-    DESCRIPTION
-            "Tesla average kWh / km"
-    ::= { system 7 }
-
-t_BatLifeTime OBJECT-TYPE
-    SYNTAX  INTEGER
-    ACCESS  read-only
-    STATUS  mandatory
-    DESCRIPTION
-            "Tesla battery life time"
-    ::= { system 8 }
+            "Tesla battery percentage"
+    ::= { t_Info 4 }
 
 t_HP OBJECT-TYPE
     SYNTAX  INTEGER
@@ -105,7 +52,7 @@ t_HP OBJECT-TYPE
     STATUS  mandatory
     DESCRIPTION
             "Tesla HP"
-    ::= { system 9 }
+    ::= { t_Info 5 }
 
 t_MaxSpeed OBJECT-TYPE
     SYNTAX  INTEGER
@@ -113,7 +60,7 @@ t_MaxSpeed OBJECT-TYPE
     STATUS  mandatory
     DESCRIPTION
             "Tesla max speed reached"
-    ::= { system 10 }
+    ::= { t_Info 6 }
 
 t_InterLigths OBJECT-TYPE
     SYNTAX  INTEGER {
@@ -124,7 +71,50 @@ t_InterLigths OBJECT-TYPE
     ACCESS  read-only
     STATUS  read-write
     DESCRIPTION
-            "Tesla inter ligths config"
-    ::= { system 11 }
+            "Tesla interior lights config"
+    ::= { t_Info 7 }
+
+t_DoorTable OBJECT-TYPE 
+    SYNTAX SEQUENCE OF t_DoorEntry
+    ACCESS not-accessible
+    STATUS mandatory
+    DESCRIPTION
+    "A list of door info entries." 
+    ::= { t_Info 8 }
+
+t_DoorEntry OBJECT-TYPE
+    SYNTAX  t_DoorEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    DESCRIPTION "Information entry about vehicle doors."
+    INDEX   { t_DoorIndex }
+    ::= { t_DoorTable 1 }
+
+t_DoorEntry ::=
+    SEQUENCE {
+        t_DoorStatus    INTEGER,
+        t_DoorWindow    INTEGER
+    }
+
+t_DoorIndex OBJECT-TYPE
+    SYNTAX  INTEGER { front-right(1), front-left(2), rear-right(3), rear-left(4) }
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION "Door identifier."
+    ::= { t_DoorEntry 3 }
+
+t_DoorStatus OBJECT-TYPE
+    SYNTAX  INTEGER { open(1), closed(2) }
+    ACCESS  read-write
+    STATUS  mandatory
+    DESCRIPTION "Door status, tracks opening and closing of doors."
+    ::= { t_DoorEntry 2 }
+
+t_DoorWindow OBJECT-TYPE
+    SYNTAX  INTEGER { open(1), half-open(2), closed(3) }
+    ACCESS  read-only
+    STATUS  mandatory
+    DESCRIPTION "Door window status."
+    ::= { t_DoorEntry 3 }
 
 END

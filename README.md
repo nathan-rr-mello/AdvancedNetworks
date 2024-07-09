@@ -1,5 +1,7 @@
 # Advanced Networks
 
+Trabalho feito por Nathan Mello, Bernardo Fiorini e Eduardo Machado.
+
 Para rodar siga os passos do notebook:
 - Instale o snmp
 - Use a diretiva pass para rotear os requests com o oid desejado

@@ -13,108 +13,108 @@ teslaMIB MODULE-IDENTITY
     DESCRIPTION "MIB for acessing information about tesla cars."
 ::= { experimental 1234 }
 
-t_Info OBJECT IDENTIFIER ::= { teslaMIB 1 }
+tInfo OBJECT IDENTIFIER ::= { teslaMIB 1 }
 
-t_ModelName OBJECT-TYPE
+tModelName OBJECT-TYPE
     SYNTAX  DisplayString (SIZE (0..255))
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
             "Tesla model name."
-    ::= { t_Info 1 }
+    ::= { tInfo 1 }
 
-t_ManDate OBJECT-TYPE
+tManDate OBJECT-TYPE
     SYNTAX  DisplayString (SIZE (0..255))
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
             "Tesla manufacturing date"
-    ::= { t_Info 2 }
+    ::= { tInfo 2 }
 
-t_ACTemp OBJECT-TYPE
+tACTemp OBJECT-TYPE
     SYNTAX  INTEGER
     ACCESS  read-write
     STATUS  mandatory
     DESCRIPTION
             "Temperature set on the air conditioner on celsius."
-    ::= { t_Info 3 }
+    ::= { tInfo 3 }
 
-t_BatteryPercentage OBJECT-TYPE
+tBatteryPercentage OBJECT-TYPE
     SYNTAX  INTEGER (0..100)
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
             "Tesla battery percentage"
-    ::= { t_Info 4 }
+    ::= { tInfo 4 }
 
-t_HP OBJECT-TYPE
+tHP OBJECT-TYPE
     SYNTAX  INTEGER
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
             "Tesla HP"
-    ::= { t_Info 5 }
+    ::= { tInfo 5 }
 
-t_MaxSpeed OBJECT-TYPE
+tMaxSpeed OBJECT-TYPE
     SYNTAX  INTEGER
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION
             "Tesla max speed reached"
-    ::= { t_Info 6 }
+    ::= { tInfo 6 }
 
-t_InterLigths OBJECT-TYPE
+tInterLigths OBJECT-TYPE
     SYNTAX  INTEGER {
                     on(1),
                     off(2),
                 }
-    ACCESS  read-only
-    STATUS  read-write
+    ACCESS  read-write
+    STATUS  mandatory
     DESCRIPTION
             "Tesla interior lights config"
-    ::= { t_Info 7 }
+    ::= { tInfo 7 }
 
-t_DoorTable OBJECT-TYPE 
-    SYNTAX SEQUENCE OF t_DoorEntry
+tDoorTable OBJECT-TYPE 
+    SYNTAX SEQUENCE OF tDoorEntry
     ACCESS not-accessible
     STATUS mandatory
     DESCRIPTION
     "A list of door info entries." 
-    ::= { t_Info 8 }
+    ::= { tInfo 8 }
 
-t_DoorEntry OBJECT-TYPE
-    SYNTAX  t_DoorEntry
+tDoorEntry OBJECT-TYPE
+    SYNTAX  tDoorEntry
     ACCESS  not-accessible
     STATUS  mandatory
     DESCRIPTION "Information entry about vehicle doors."
-    INDEX   { t_DoorIndex }
-    ::= { t_DoorTable 1 }
+    INDEX   { tDoorIndex }
+    ::= { tDoorTable 1 }
 
-t_DoorEntry ::=
+tDoorEntry ::=
     SEQUENCE {
-        t_DoorStatus    INTEGER,
-        t_DoorWindow    INTEGER
+        tDoorStatus    INTEGER,
+        tDoorWindow    INTEGER
     }
 
-t_DoorIndex OBJECT-TYPE
+tDoorIndex OBJECT-TYPE
     SYNTAX  INTEGER { front-right(1), front-left(2), rear-right(3), rear-left(4) }
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION "Door identifier."
-    ::= { t_DoorEntry 1 }
+    ::= { tDoorEntry 1 }
 
-t_DoorStatus OBJECT-TYPE
+tDoorStatus OBJECT-TYPE
     SYNTAX  INTEGER { open(1), closed(2) }
     ACCESS  read-write
     STATUS  mandatory
     DESCRIPTION "Door status, tracks opening and closing of doors."
-    ::= { t_DoorEntry 2 }
+    ::= { tDoorEntry 2 }
 
-t_DoorWindow OBJECT-TYPE
+tDoorWindow OBJECT-TYPE
     SYNTAX  INTEGER { open(1), half-open(2), closed(3) }
     ACCESS  read-only
     STATUS  mandatory
     DESCRIPTION "Door window status."
-    ::= { t_DoorEntry 3 }
+    ::= { tDoorEntry 3 }
 
 END

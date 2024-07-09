@@ -1,0 +1,21 @@
+{
+    "tModelName": "Tesla Model S 2024",
+    "tManDate": "2024-02-29 14:30:58",
+    "tACTemp": 23,
+    "tBatteryPercentage": 86,
+    "tHP": 670,
+    "tMaxSpeed": 267,
+    "tInterLigths": 2,
+    "tDoorIndex1": 1,
+    "tDoorIndex2": 2,
+    "tDoorIndex3": 3,
+    "tDoorIndex4": 4,
+    "tDoorStatus1": 1,
+    "tDoorStatus2": 2,
+    "tDoorStatus3": 2,
+    "tDoorStatus4": 1,
+    "tDoorWindow1": 3,
+    "tDoorWindow2": 2,
+    "tDoorWindow3": 1,
+    "tDoorWindow4": 3
+}
